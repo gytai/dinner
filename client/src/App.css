@@ -1,0 +1,18 @@
+.App{
+    height: 100%;
+}
+
+.app-content{
+    height: calc(100% - 85px);
+    background: #ffffff;
+}
+
+.app-footer{
+    position:fixed;
+    width:100%;
+    bottom:0;
+    height:40px;
+    background:#f6f8fa;
+    text-align: center;
+    line-height: 40px;
+}
