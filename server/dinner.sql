@@ -11,7 +11,7 @@
  Target Server Version : 50635
  File Encoding         : utf-8
 
- Date: 08/02/2017 15:57:25 PM
+ Date: 11/14/2017 16:02:55 PM
 */
 
 SET NAMES utf8mb4;
@@ -28,14 +28,7 @@ CREATE TABLE `dinner` (
   PRIMARY KEY (`id`),
   KEY `uid` (`uid`),
   KEY `create_time` (`create_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
-
--- ----------------------------
---  Records of `dinner`
--- ----------------------------
-BEGIN;
-INSERT INTO `dinner` VALUES ('8', '1', '2017-08-02 14:18:38'), ('9', '3', '2017-08-02 15:24:15'), ('10', '6', '2017-08-02 15:28:37');
-COMMIT;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `users`
@@ -48,13 +41,6 @@ CREATE TABLE `users` (
   `create_time` datetime DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
--- ----------------------------
---  Records of `users`
--- ----------------------------
-BEGIN;
-INSERT INTO `users` VALUES ('1', 'gytai', '123456', '2017-08-02 11:36:43', '邰广银'), ('6', 'shilei', '123456', '2017-08-02 15:27:40', '石磊');
-COMMIT;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;

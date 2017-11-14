@@ -12,10 +12,11 @@ global.app = app;
 var mysql = require('mysql');
 var connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database:'dinner'
+    user: 'meyer_dinner',
+    password: 'meyer_dinner',
+    database:'meyer_dinner'
 });
+
 connection.connect(function (err) {
     if (err) {
         console.error('mysql数据库连接错误: ' + err.stack);
@@ -23,6 +24,7 @@ connection.connect(function (err) {
     }
     console.log('mysql数据库连接成功， id ' + connection.threadId);
 });
+
 global.app.set("mysql",connection);
 
 var index = require('./routes/index');
