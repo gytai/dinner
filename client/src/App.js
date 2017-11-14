@@ -16,6 +16,7 @@ class  OrderList extends  Component {
         };
         const { getFieldProps } = props.form;
         this.getFieldProps = getFieldProps;
+        this.updateOrderNum = props.updateOrderNum;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -43,6 +44,7 @@ class  OrderList extends  Component {
                                 var res = response.data;
                                 if(res.code == 200){
                                     Toast.success('操作成功');
+                                    _self.updateOrderNum(checked);
                                 }else{
                                     Toast.fail('操作失败：'+res.msg);
                                 }
@@ -123,6 +125,16 @@ class App extends Component {
         });
     }
 
+    updateOrderNum(type,e){
+        let pre =  this.state.order_num;
+        if(type){
+            pre += 1;
+        }else{
+            pre -= 1;
+        }
+        this.setState({"order_num":pre});
+    }
+
     render() {
         return (
           <div className="App">
@@ -130,7 +142,11 @@ class App extends Component {
                   mode="dark"
                   onLeftClick={() => console.log('onLeftClick')}>订餐系统</NavBar>
               <div className="app-content">
-                  <OrderList date={this.state.date} order_list={this.state.order_list} self_is_order={this.state.self_is_order}/>
+                  <OrderList date={this.state.date}
+                             order_list={this.state.order_list}
+                             self_is_order={this.state.self_is_order}
+                             updateOrderNum={this.updateOrderNum.bind(this)}
+                  />
               </div>
               <div className="app-footer">
                     今日订餐人数：{this.state.order_num}

@@ -3,8 +3,6 @@ var router = express.Router();
 var mysql = app.get("mysql");
 var common = require('../utils/common');
 var crypto = require('crypto');
-var md5 = crypto.createHash('md5');
-
 
 router.post('/reset', function(req, res, next) {
     var name = req.body.name;
@@ -14,6 +12,8 @@ router.post('/reset', function(req, res, next) {
     if(!password){
         return res.send({code:400,msg:'缺少参数'});
     }
+
+    var md5 = crypto.createHash('md5');
     password = md5.update(password).digest('hex');
 
     var sql = 'update users set password=?';
@@ -36,7 +36,9 @@ router.post('/login', function(req, res, next) {
     var account = req.body.account;
     var password = req.body.password;
 
+    var md5 = crypto.createHash('md5');
     password = md5.update(password).digest('hex');
+
     var sql = 'select * from users where account=? and password=?';
     mysql.query(sql, [account,password],function (err,data) {
         if(err){
@@ -59,6 +61,7 @@ router.post('/register', function(req, res, next) {
     var password = req.body.password;
     var name = req.body.name;
 
+    var md5 = crypto.createHash('md5');
     password = md5.update(password).digest('hex');
 
     var sql = 'select * from users where account=?';

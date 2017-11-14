@@ -49,6 +49,7 @@ class Register extends Component {
             Toast.fail('两次密码不一致', 1);
             return;
         }
+        var _self = this;
         axios.post(ServerUrl+'/users/register',{
             account:this.state.job_no,
             password:this.state.password1,
@@ -57,6 +58,9 @@ class Register extends Component {
             console.log(res);
             if(res.data && res.data.code == 200){
                 Toast.fail('注册成功');
+                setTimeout(function () {
+                    _self.context.router.history.push("/login");
+                },1000);
             }else{
                 Toast.fail('注册失败：'+res.data.msg);
             }

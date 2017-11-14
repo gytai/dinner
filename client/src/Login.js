@@ -62,7 +62,10 @@ class Login extends Component {
                     mode="dark"
                     onLeftClick={() => console.log('onLeftClick')}
                 >订餐系统</NavBar>
-                <List style={{marginTop:100}}>
+                <div  style={{height:110,textAlign:'center'}}>
+                    <img src="/logo.png" style={{ marginTop:35 }}/>
+                </div>
+                <List>
                     <InputItem
                         type="number"
                         placeholder="请输入工号"
