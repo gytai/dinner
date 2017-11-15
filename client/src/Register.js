@@ -57,7 +57,7 @@ class Register extends Component {
         }).then(function(res){
             console.log(res);
             if(res.data && res.data.code == 200){
-                Toast.fail('注册成功');
+                Toast.success('注册成功');
                 setTimeout(function () {
                     _self.context.router.history.push("/login");
                 },1000);

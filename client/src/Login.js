@@ -32,7 +32,7 @@ class Login extends Component {
         }).then(function(res){
             console.log(res);
             if(res.data && res.data.code == 200){
-                Toast.fail('登录成功');
+                Toast.success('登录成功');
                 sessionStorage.setItem("uid",res.data.data.uid);
                 sessionStorage.setItem("uname",res.data.data.name);
                 setTimeout(function () {

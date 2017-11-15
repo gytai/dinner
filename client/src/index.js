@@ -7,16 +7,17 @@ import Register from './Register';
 import registerServiceWorker from './registerServiceWorker';
 import {
     BrowserRouter as Router,
-    Route
+    Route,
+    Switch
 } from 'react-router-dom'
 
 ReactDOM.render((
     <Router>
-        <div style={{ height:'100%'}}>
+        <Switch>
             <Route exact path="/" component={App}/>
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
-        </div>
+        </Switch>
     </Router>
 ), document.getElementById('root'));
 registerServiceWorker();

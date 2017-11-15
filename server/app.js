@@ -12,9 +12,9 @@ global.app = app;
 var mysql = require('mysql');
 var connection = mysql.createConnection({
     host: 'localhost',
-    user: 'meyer_dinner',
-    password: 'meyer_dinner',
-    database:'meyer_dinner'
+    user: 'root',
+    password: 'root',
+    database:'dinner'
 });
 
 connection.connect(function (err) {
