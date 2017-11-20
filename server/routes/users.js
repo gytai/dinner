@@ -3,6 +3,7 @@ var router = express.Router();
 var mysql = app.get("mysql");
 var common = require('../utils/common');
 var crypto = require('crypto');
+var config = require('../config');
 
 router.post('/reset', function(req, res, next) {
     var name = req.body.name;
@@ -48,7 +49,7 @@ router.post('/login', function(req, res, next) {
             var user = data[0];
             req.session.uid = user.id;
             req.session.account = user.account;
-            return res.send({code:200,msg:'登录成功',data:{uid:user.id,name:user.name}});
+            return res.send({code:200,msg:'登录成功',data:{uid:user.id,name:user.name},config:config.dinner});
         }else{
             return res.send({code:400,msg:'用户名或者密码错误'});
         }

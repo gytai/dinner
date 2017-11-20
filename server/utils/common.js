@@ -1,9 +1,6 @@
 /**
  * Created by taiguangyin on 17/8/2.
  */
-/**
- * Created by GuangYin on 2016-09-12.
- */
 
 /**
  * 时间格式转换辅助方法

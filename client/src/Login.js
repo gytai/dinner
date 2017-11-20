@@ -35,6 +35,10 @@ class Login extends Component {
                 Toast.success('登录成功');
                 sessionStorage.setItem("uid",res.data.data.uid);
                 sessionStorage.setItem("uname",res.data.data.name);
+                sessionStorage.setItem("pastry_order_start_time",res.data.config.pastry_order_start_time);
+                sessionStorage.setItem("pastry_order_end_time",res.data.config.pastry_order_end_time);
+                sessionStorage.setItem("pastry_baozi_sum",res.data.config.pastry_baozi_sum);
+                sessionStorage.setItem("pastry_mantou_sum",res.data.config.pastry_mantou_sum);
                 setTimeout(function () {
                     window.location.href = '/';
                 },1000);

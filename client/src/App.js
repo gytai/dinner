@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-import { NavBar,List, Switch,Toast} from 'antd-mobile';
+import { NavBar,List, Switch,Toast,Icon} from 'antd-mobile';
 import {DateFormat} from "./common"
 import { createForm } from 'rc-form';
 import axios from 'axios';
 import {ServerUrl} from "./AppConfig";
+import {
+    Link
+} from 'react-router-dom'
 
 class  OrderList extends  Component {
     constructor(props) {
@@ -140,7 +143,12 @@ class App extends Component {
           <div className="App">
               <NavBar
                   mode="dark"
-                  onLeftClick={() => console.log('onLeftClick')}>订餐系统</NavBar>
+                  onLeftClick={() => console.log('onLeftClick')}
+                  rightContent={[
+                      <Link key="0" to="/pastry"><Icon type="ellipsis" color="#ffffff"/></Link>,
+                  ]}
+              >晚餐</NavBar>
+
               <div className="app-content">
                   <OrderList date={this.state.date}
                              order_list={this.state.order_list}

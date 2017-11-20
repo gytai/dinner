@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import Login from './Login';
 import Register from './Register';
+import pastry from './Pastry';
 import registerServiceWorker from './registerServiceWorker';
 import {
     BrowserRouter as Router,
@@ -17,6 +18,7 @@ ReactDOM.render((
             <Route exact path="/" component={App}/>
             <Route path="/login" component={Login}/>
             <Route path="/register" component={Register}/>
+            <Route path="/pastry" component={pastry}/>
         </Switch>
     </Router>
 ), document.getElementById('root'));

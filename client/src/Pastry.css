@@ -1,0 +1,17 @@
+.marquee{
+    height: 40px;
+    color:blue;
+    line-height: 40px;
+}
+
+.bottom-display{
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 5px;
+    color: #c2c2c2;
+    width: 100%;
+}
+
+.bottom-display div{
+    text-align: center;
+}

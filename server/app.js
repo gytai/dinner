@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var schedule = require('./service/schedule');
 
 var app = express();
 global.app = app;
@@ -29,6 +30,7 @@ global.app.set("mysql",connection);
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var pastry = require('./routes/pastry');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -61,6 +63,7 @@ app.all('*',function (req, res, next) {
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/pastry', pastry);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -79,5 +82,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//重置定时器
+schedule.reset_pastry_num();
+
 
 module.exports = app;

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mysql = app.get("mysql");
 var common = require('../utils/common');
+var config = require('../config');
 
 router.get('/', function(req, res, next) {
    res.redirect('/index.html');
@@ -26,9 +27,18 @@ router.post('/order', function(req, res, next) {
         return res.send({code:400,msg:'未登录'});
     }
     var now = new Date();
-    if(now.getHours() >= 17){
-        return res.send({code:400,msg:'超过五点不能预定'});
+    var now_times = now.getTime();
+
+    var dinner_start_time = new Date(common.dateFormat(new Date(),"yyyy-MM-dd") + ' ' + config.dinner.dinner_order_start_time).getTime();
+    var dinner_end_time = new Date(common.dateFormat(new Date(),"yyyy-MM-dd") + ' ' + config.dinner.dinner_order_end_time).getTime();
+    if(now_times < dinner_start_time){
+        return res.send({code:400,msg:"预定时间尚未开始..."})
     }
+
+    if(now_times > dinner_end_time){
+        return res.send({code:400,msg:"预定时间已经结束..."})
+    }
+
     var start_time = common.dateFormat(now,'yyyy-MM-dd 00:00:00');
     var end_time = common.dateFormat(now,'yyyy-MM-dd 23:59:59');
     var sql = 'select * from dinner  where uid=? and create_time>? and create_time<?';
@@ -55,9 +65,18 @@ router.post('/cancel', function(req, res, next) {
         return res.send({code:400,msg:'未登录'});
     }
     var now = new Date();
-    if(now.getHours() >= 17){
-        return res.send({code:400,msg:'超过五点不能取消预定'});
+    var now_times = now.getTime();
+
+    var dinner_start_time = new Date(common.dateFormat(new Date(),"yyyy-MM-dd") + ' ' + config.dinner.dinner_order_start_time).getTime();
+    var dinner_end_time = new Date(common.dateFormat(new Date(),"yyyy-MM-dd") + ' ' + config.dinner.dinner_order_end_time).getTime();
+    if(now_times < dinner_start_time){
+        return res.send({code:400,msg:"尚未开始预定不能取消..."})
     }
+
+    if(now_times > dinner_end_time){
+        return res.send({code:400,msg:"时间已过，不能取消..."})
+    }
+
     var start_time = common.dateFormat(now,'yyyy-MM-dd 00:00:00');
     var end_time = common.dateFormat(now,'yyyy-MM-dd 23:59:59');
     var sql = 'select * from dinner where uid=? and create_time>? and create_time<?';

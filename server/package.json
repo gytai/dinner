@@ -18,6 +18,8 @@
     "nodemailer":"^4.0.1",
     "nodemailer-smtp-transport":"^2.7.4",
     "node-schedule":"^1.2.3",
-    "md5":"^2.2.1"
+    "md5":"^2.2.1",
+    "redis":"^2.8.0",
+    "sync":"^0.2.5"
   }
 }

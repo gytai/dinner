@@ -1,3 +1,7 @@
+/**
+ * Created by taiguangyin on 17/8/2.
+ */
+
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var config = require('../config');
