@@ -89,21 +89,9 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            date:DateFormat(new Date(),"yyyy-MM-dd"),
-            order_list:[],
-            self_no:localStorage.getItem('self_no')?localStorage.getItem('self_no'):'自己',
-            self_is_order:false,
-            order_num:0,
-            avatar:"/default_avatar.png",//sessionStorage.getItem("avatar")?sessionStorage.getItem("avatar"):"/default_avatar.png",
-            refreshing: false,
-            down: false,
-            height: document.documentElement.clientHeight - 85,
-            page:1,
-            size:10,
-            isComplete:false
-        };
-        this.getData = this.getData.bind(this);
+        if(!sessionStorage.getItem("uid")){
+            window.location.href = ServerUrl;
+        }
 
         if(GetQueryString("userid")){
             sessionStorage.setItem("uid",GetQueryString("userid"));
@@ -115,9 +103,23 @@ class App extends Component {
             sessionStorage.setItem("pastry_mantou_sum",GetQueryString("pastry_mantou_sum"));
         }
 
-        if(!sessionStorage.getItem("uid")){
-            window.location.href = ServerUrl;
-        }
+        this.state = {
+            date:DateFormat(new Date(),"yyyy-MM-dd"),
+            order_list:[],
+            self_no:localStorage.getItem('self_no')?localStorage.getItem('self_no'):'自己',
+            self_is_order:false,
+            order_num:0,
+            avatar:sessionStorage.getItem("avatar")?sessionStorage.getItem("avatar"):"/default_avatar.png",
+            refreshing: false,
+            down: false,
+            height: document.documentElement.clientHeight - 85,
+            page:1,
+            size:10,
+            isComplete:false
+        };
+
+        this.getData = this.getData.bind(this);
+
     }
 
     getData(){

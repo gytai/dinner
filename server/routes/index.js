@@ -17,6 +17,11 @@ router.get('/', function(req, res, next){
         //重新授权
         if(req.query.code){
             wechat.getUserInfo(req.query.code).then(function (userinfo) {
+
+                if(!userinfo){
+                    res.send("<p style='text-align: center;margin-top: 100px;font-size: 20px;'>不是公司员工不能使用</p>");
+                }
+
                 res.cookie('userid', userinfo.userid);
                 res.cookie('avatar', userinfo.avatar);
                 res.cookie('name', userinfo.name);
