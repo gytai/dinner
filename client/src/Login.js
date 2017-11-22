@@ -65,7 +65,7 @@ class Login extends Component {
                 <NavBar
                     mode="dark"
                     onLeftClick={() => console.log('onLeftClick')}
-                >订餐系统</NavBar>
+                >登录</NavBar>
                 <div  style={{height:110,textAlign:'center'}}>
                     <img src="/logo.png" style={{ marginTop:35 }}/>
                 </div>

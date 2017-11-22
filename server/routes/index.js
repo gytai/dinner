@@ -3,21 +3,76 @@ var router = express.Router();
 var mysql = app.get("mysql");
 var common = require('../utils/common');
 var config = require('../config');
+var wechat = require('../service/wechat');
+var userSvc = require('../service/users');
+var config = require('../config');
 
-router.get('/', function(req, res, next) {
-   res.redirect('/index.html');
+router.get('/', function(req, res, next){
+    var param = "?pastry_order_start_time="+config.dinner.pastry_order_start_time
+                +"&pastry_order_end_time="+config.dinner.pastry_order_end_time
+                +"&pastry_baozi_sum="+config.dinner.pastry_baozi_sum
+                +"&pastry_mantou_sum="+config.dinner.pastry_mantou_sum;
+
+    if(!req.cookies.userid){
+        //重新授权
+        if(req.query.code){
+            wechat.getUserInfo(req.query.code).then(function (userinfo) {
+                res.cookie('userid', userinfo.userid);
+                res.cookie('avatar', userinfo.avatar);
+                res.cookie('name', userinfo.name);
+
+                param += '&userid='+userinfo.userid+'&avatar='+userinfo.avatar+'&name='+userinfo.name;
+
+                //检查用户是否注册
+                userSvc.register(userinfo.userid,userinfo.name,userinfo.avatar).then(data=>{
+                    console.log(data);
+                    res.redirect(config.dinner.client_url+param);
+                }).catch(err=>{
+                    console.error(err);
+                    res.send("服务器异常");
+                });
+            });
+        }else{
+            var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
+                config.wechat.CORPID+"&redirect_uri="+config.wechat.REDIRECT_URI+"&response_type=code" +
+                "&scope=snsapi_userinfo&agentid="+config.wechat.AGENTID+"&state=meyer#wechat_redirect";
+            res.redirect(url);
+        }
+    }else{
+         param += '&userid='+req.cookies.userid+'&avatar='+req.cookies.avatar+'&name='+req.cookies.name;
+        res.redirect(config.dinner.client_url+param);
+    }
+
 });
 
 router.get('/get', function(req, res, next) {
     var now = new Date();
     var start_time = common.dateFormat(now,'yyyy-MM-dd 00:00:00');
     var end_time = common.dateFormat(now,'yyyy-MM-dd 23:59:59');
-    var sql = 'select a.uid,a.create_time as time,b.name from dinner a join users b on a.uid=b.id where a.create_time>? and a.create_time<?';
-    mysql.query(sql, [start_time,end_time],function (err,data) {
+    var page = req.query.page || 1;
+    var size = req.query.size || 10;
+    if(typeof page == "string"){
+        page = parseInt(page);
+    }
+    if(typeof size == "string"){
+        size = parseInt(size);
+    }
+
+    var skip = (page - 1) * size;
+
+    var sql = 'select a.uid,a.create_time as time,b.name from dinner a join users b on a.uid=b.id where a.create_time>? and a.create_time<? limit ?,?';
+    var sql_total = "select count(*) as total from dinner where create_time>? and create_time<?";
+    mysql.query(sql, [start_time,end_time,skip,size],function (err,data) {
         if(err){
             return res.send({code:400,msg:err.toLocaleString()});
         }
-        return res.send({code:200,msg:'获取成功',data:data});
+        mysql.query(sql_total, [start_time,end_time],function (err,total) {
+            if(err){
+                return res.send({code:400,msg:err.toLocaleString()});
+            }
+            total = total[0].total;
+            return res.send({code:200,msg:'获取成功',data:data,total:total});
+        });
     });
 });
 
@@ -96,5 +151,7 @@ router.post('/cancel', function(req, res, next) {
         });
     });
 });
+
+
 
 module.exports = router;

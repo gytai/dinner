@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import { NavBar,List, Switch,Toast,Icon} from 'antd-mobile';
-import {DateFormat} from "./common"
+import { NavBar,List, Switch,Toast,Icon,PullToRefresh} from 'antd-mobile';
+import {DateFormat,GetQueryString,GetCookie} from "./common"
 import { createForm } from 'rc-form';
 import axios from 'axios';
 import {ServerUrl} from "./AppConfig";
@@ -14,6 +14,7 @@ class  OrderList extends  Component {
         super(props);
         this.state = {
             date : props.date,
+            avatar : props.avatar,
             order_list : props.order_list,
             self_is_order :props.self_is_order || false
         };
@@ -32,6 +33,7 @@ class  OrderList extends  Component {
         return (
             <List renderHeader={() =>  this.state.date + ' 订餐明细'}>
                 <List.Item
+                    thumb={this.state.avatar}
                     extra={<Switch
                         {...this.getFieldProps('Switch1', {
                             initialValue: this.state.self_is_order,
@@ -63,6 +65,7 @@ class  OrderList extends  Component {
                         return (
                             <List.Item
                                 key={item.name}
+                                thumb={item.avatar}
                                 extra={<Switch
                                     {..._self.getFieldProps('Switch'+{i}, {
                                         initialValue: true,
@@ -91,41 +94,69 @@ class App extends Component {
             order_list:[],
             self_no:localStorage.getItem('self_no')?localStorage.getItem('self_no'):'自己',
             self_is_order:false,
-            order_num:0
+            order_num:0,
+            avatar:"/default_avatar.png",//sessionStorage.getItem("avatar")?sessionStorage.getItem("avatar"):"/default_avatar.png",
+            refreshing: false,
+            down: false,
+            height: document.documentElement.clientHeight - 85,
+            page:1,
+            size:10,
+            isComplete:false
         };
+        this.getData = this.getData.bind(this);
 
-        if(!sessionStorage.getItem("uid")){
-            return window.location.href = "/login";
+        if(GetQueryString("userid")){
+            sessionStorage.setItem("uid",GetQueryString("userid"));
+            sessionStorage.setItem("uname",GetQueryString("name"));
+            sessionStorage.setItem("avatar",GetQueryString("avatar"));
+            sessionStorage.setItem("pastry_order_start_time",GetQueryString("pastry_order_start_time"));
+            sessionStorage.setItem("pastry_order_end_time",GetQueryString("pastry_order_end_time"));
+            sessionStorage.setItem("pastry_baozi_sum",GetQueryString("pastry_baozi_sum"));
+            sessionStorage.setItem("pastry_mantou_sum",GetQueryString("pastry_mantou_sum"));
         }
 
+        if(!sessionStorage.getItem("uid")){
+            window.location.href = ServerUrl;
+        }
     }
 
-    componentWillMount(){
+    getData(){
         var _self = this;
-        axios.get(ServerUrl+'/get').then(function (response) {
+        if(this.state.isComplete){
+            _self.setState({ refreshing: false });
+            return;
+        }
+        _self.setState({ refreshing: true });
+        axios.get(ServerUrl+'/get?page='+this.state.page+'&size='+this.state.size).then(function (response) {
             let data = response.data;
             if(data.code == 200){
-                let list = [];
+                let list = _self.state.order_list;
                 data.data.forEach(function (d) {
                     if(d.uid != sessionStorage.getItem('uid')){
                         list.push({"name":d.name,"is_order":true});
                     }else{
-                        //_self.state.self_is_order = true;
                         _self.setState({"self_is_order":true});
                     }
                 });
-                //_self.state.order_list = list;
                 _self.setState({"order_list":list});
-                if(_self.state.self_is_order){
-                    _self.setState({"order_num":_self.state.order_list.length+1});
+                _self.setState({"order_num":data.total});
+
+                if(data.data.length < _self.state.size){
+                    _self.setState({ isComplete: true });
                 }else{
-                    _self.setState({"order_num":_self.state.order_list.length});
+                    _self.setState({ page: _self.state.page + 1 });
                 }
+
+                _self.setState({ refreshing: false });
             }
 
         }).catch(function (error) {
             console.log(error);
         });
+    }
+
+    componentWillMount(){
+        this.getData();
     }
 
     updateOrderNum(type,e){
@@ -140,6 +171,7 @@ class App extends Component {
 
     render() {
         return (
+
           <div className="App">
               <NavBar
                   mode="dark"
@@ -150,11 +182,26 @@ class App extends Component {
               >晚餐</NavBar>
 
               <div className="app-content">
-                  <OrderList date={this.state.date}
-                             order_list={this.state.order_list}
-                             self_is_order={this.state.self_is_order}
-                             updateOrderNum={this.updateOrderNum.bind(this)}
-                  />
+                  <PullToRefresh
+                      ref={el => this.ptr = el}
+                      style={{
+                          height: this.state.height,
+                          overflow: 'auto',
+                      }}
+                      indicator={this.state.down ? {} : { deactivate: '上拉可以刷新' }}
+                      direction={this.state.down ? 'down' : 'up'}
+                      refreshing={this.state.refreshing}
+                      onRefresh={() => {
+                          this.getData();
+                      }}
+                  >
+                      <OrderList date={this.state.date}
+                                 avatar={this.state.avatar}
+                                 order_list={this.state.order_list}
+                                 self_is_order={this.state.self_is_order}
+                                 updateOrderNum={this.updateOrderNum.bind(this)}
+                      />
+                  </PullToRefresh>
               </div>
               <div className="app-footer">
                     今日订餐人数：{this.state.order_num}

@@ -1,4 +1,4 @@
-var DateFormat = function (date,fmt) {
+function DateFormat(date,fmt) {
     if(!date){
         date = new Date();
     }
@@ -20,4 +20,12 @@ var DateFormat = function (date,fmt) {
     return fmt;
 }
 
-export {DateFormat}
+
+function GetQueryString(key)
+{
+    var reg = new RegExp("(^|&)"+key+"=([^&]*)(&|$)");
+    var result = window.location.search.substr(1).match(reg);
+    return result?decodeURIComponent(result[2]):null;
+}
+
+export {DateFormat,GetQueryString}

@@ -19,8 +19,9 @@ class Register extends Component {
             pastry_mantou_sum:sessionStorage.getItem("pastry_mantou_sum"),
         };
         this.order = this.order.bind(this);
+
         if(!sessionStorage.getItem("uid")){
-            return window.location.href = "/login";
+            window.location.href = ServerUrl;
         }
 
         var _self = this;
