@@ -66,7 +66,7 @@ router.get('/get', function(req, res, next) {
 
     var skip = (page - 1) * size;
 
-    var sql = 'select a.uid,a.create_time as time,b.name from dinner a join users b on a.uid=b.id where a.create_time>? and a.create_time<? limit ?,?';
+    var sql = 'select a.uid,a.create_time as time,b.name,b.avatar from dinner a join users b on a.uid=b.id where a.create_time>? and a.create_time<? limit ?,?';
     var sql_total = "select count(*) as total from dinner where create_time>? and create_time<?";
     mysql.query(sql, [start_time,end_time,skip,size],function (err,data) {
         if(err){
