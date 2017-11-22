@@ -20,7 +20,7 @@ router.get('/', function(req, res, next){
                 console.log(userinfo);
 
                 if(!userinfo || !userinfo.userid){
-                    res.send("<p style='text-align: center;margin-top: 100px;font-size: 20px;'>不是公司员工不能使用</p>");
+                    res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>不是公司员工不能使用</p>");
                 }
 
                 res.cookie('userid', userinfo.userid);
