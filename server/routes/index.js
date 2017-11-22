@@ -72,6 +72,7 @@ router.get('/get', function(req, res, next) {
         if(err){
             return res.send({code:400,msg:err.toLocaleString()});
         }
+
         mysql.query(sql_total, [start_time,end_time],function (err,total) {
             if(err){
                 return res.send({code:400,msg:err.toLocaleString()});
