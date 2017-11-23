@@ -167,11 +167,13 @@
             $.post(url,{"uid":uid},function (res) {
                 console.log(res);
                 if(res.code == 200){
-                    $.toast('操作成功');
+
                     order_checked = !order_checked;
                     if(order_checked){
+                        $.toast('预定成功，客官再来...');
                         $(".order_btn input").prop("checked",true);
                     }else{
+                        $.toast('取消成功，客官慢走...');
                         $(".order_btn input").prop("checked",false);
                     }
                     setTimeout(function () {
