@@ -31,11 +31,11 @@ router.get('/', function(req, res, next){
                     res.redirect(config.dinner.client_url);
                 }).catch(err=>{
                     console.error(err);
-                    return res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>服务器异常</p>");
+                    return res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>不是公司员工不能使用</p>");
                 });
             }).catch(function (err) {
                 console.error(err);
-                return res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>服务器异常</p>");
+                return res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>不是公司员工不能使用</p>");
             });
         }else{
             var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
