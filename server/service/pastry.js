@@ -212,8 +212,63 @@ async function left() {
     return res.send({code:200,msg:'获取成功',data:{"baozi_num":pastry_baozi_sum,"mantou_num":pastry_mantou_sum}});
 }
 
+function stats_dinner() {
+    return new Promise(function (resolve, reject){
+        var now = new Date();
+        var start_time = common.dateFormat(now,'yyyy-MM-dd 00:00:00');
+        var end_time = common.dateFormat(now,'yyyy-MM-dd 23:59:59');
+        var sql = 'select count(*) as dinner_sum from dinner where create_time>? and create_time<?';
+        mysql.query(sql, [start_time,end_time],function (err,pdata) {
+            if(err){
+                return reject(err,null);
+            }
+            if(pdata.length > 0){
+                return resolve(pdata[0].dinner_sum)
+            }else{
+                return resolve(0)
+            }
+        });
+    });
+}
+
+function stats_pastry() {
+    return new Promise(function (resolve, reject){
+        var now = new Date();
+        var start_time = common.dateFormat(now,'yyyy-MM-dd 00:00:00');
+        var end_time = common.dateFormat(now,'yyyy-MM-dd 23:59:59');
+        var sql = 'select sum(baozi_num)  as baozi_num,sum(mantou_num) as mantou_num from pastry where create_time>? and create_time<?';
+        mysql.query(sql, [start_time,end_time],function (err,pdata) {
+            if(err){
+                return reject(err,null);
+            }
+            if(pdata.length > 0){
+                return resolve({
+                    baozi_num:pdata[0].baozi_num,
+                    mantou_num:pdata[0].mantou_num
+                })
+            }else{
+                return resolve({
+                    baozi_num:0,
+                    mantou_num:0
+                })
+            }
+        });
+    });
+}
+
+async function stats() {
+    var dinner_num = await stats_dinner().catch(err=>console.error(err));
+    var pastry = await stats_pastry().catch(err=>console.error(err));
+    return {
+        dinner_num:dinner_num,
+        pastry:pastry
+    }
+}
+
 exports.getBaoziMantouNum = getBaoziMantouNum;
 exports.checkOrder = checkOrder;
 exports.order = order;
 exports.cancel = cancel;
 exports.left = left;
+exports.stats = stats;
+exports.getOrderDetail = getOrderDetail;

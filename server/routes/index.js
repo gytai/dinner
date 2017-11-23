@@ -4,7 +4,7 @@ var mysql = app.get("mysql");
 var wechat = require('../service/wechat');
 var userSvc = require('../service/users');
 var config = require('../config');
-
+var pastry = require('../service/pastry');
 
 router.get('/', function(req, res, next){
     if(!req.session.uid){
@@ -48,11 +48,14 @@ router.get('/', function(req, res, next){
 });
 
 router.get('/stats',function (req, res, next) {
-    res.render("stats",{
-        dinner_num:10,
-        baozi_num:20,
-        mantou_num:20
+    pastry.stats().then(function (data) {
+        res.render("stats",{
+            dinner_num:data.dinner_num || 0,
+            baozi_num:data.pastry.baozi_num || 0,
+            mantou_num:data.pastry.mantou_num || 0
+        });
     });
+
 });
 
 
