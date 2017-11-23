@@ -26,11 +26,11 @@
       <!-- 工具栏 -->
       <nav class="bar bar-tab">
           <a class="tab-item external" href="/dinner">
-              <span class="icon icon-home"></span>
+              <span class="icon icon-cart"></span>
               <span class="tab-label">晚餐预定</span>
           </a>
           <a class="tab-item external active" href="/pastry">
-              <span class="icon icon-star"></span>
+              <span class="icon icon-clock"></span>
               <span class="tab-label">面点秒杀</span>
           </a>
           <a class="tab-item external" href="/users">
@@ -47,17 +47,6 @@
                       <!-- Text inputs -->
                       <li>
                           <div class="item-content">
-                              <div class="item-media"><i class="icon icon-form-name"></i></div>
-                              <div class="item-inner">
-                                  <div class="item-title label">包子</div>
-                                  <div class="item-input">
-                                      <input class="baozi_num" type="number" placeholder="最多预定<%= pastry_baozi_max %>"  <% if(is_order){%>value="<%= baozi_num%>"<%}%> >
-                                  </div>
-                              </div>
-                          </div>
-                      </li>
-                      <li>
-                          <div class="item-content">
                               <div class="item-media"><i class="icon icon-form-email"></i></div>
                               <div class="item-inner">
                                   <div class="item-title label">馒头</div>
@@ -67,6 +56,18 @@
                               </div>
                           </div>
                       </li>
+                      <li>
+                          <div class="item-content">
+                              <div class="item-media"><i class="icon icon-form-name"></i></div>
+                              <div class="item-inner">
+                                  <div class="item-title label">包子/大饼</div>
+                                  <div class="item-input">
+                                      <input class="baozi_num" type="number" placeholder="最多预定<%= pastry_baozi_max %>"  <% if(is_order){%>value="<%= baozi_num%>"<%}%> >
+                                  </div>
+                              </div>
+                          </div>
+                      </li>
+
                   </ul>
                   <a href="#" class="button button-big button-fill order-pastry-btn"><% if(!is_order){%>立即秒杀<%}else{%>取消预定<%}%></a>
                   <div style="position: absolute;bottom: 0.2rem;font-size: 0.7rem;">
