@@ -33,6 +33,9 @@ router.get('/', function(req, res, next){
                     console.error(err);
                     return res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>服务器异常</p>");
                 });
+            }).catch(function (err) {
+                console.error(err);
+                return res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>服务器异常</p>");
             });
         }else{
             var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
