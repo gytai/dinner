@@ -30,6 +30,9 @@ redisSvc.set = function(key, value, expire, callback){
             }
         }
     }
+    if(!value){
+        return callback("redis value is undefined",null);
+    }
     client.set(key, value, function(err, result){
 
         if (err) {
@@ -42,7 +45,7 @@ redisSvc.set = function(key, value, expire, callback){
             client.expire(key, parseInt(expire));
         }
 
-        callback(null,result)
+        return callback(null,result)
     })
 };
 
