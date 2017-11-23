@@ -51,7 +51,7 @@
                               <div class="item-inner">
                                   <div class="item-title label">包子</div>
                                   <div class="item-input">
-                                      <input class="baozi_num" type="number" placeholder="最多预定<%= pastry_baozi_max %>"  <% if(!is_order){%>value="<%= baozi_num%>"<%}%> >
+                                      <input class="baozi_num" type="number" placeholder="最多预定<%= pastry_baozi_max %>"  <% if(is_order){%>value="<%= baozi_num%>"<%}%> >
                                   </div>
                               </div>
                           </div>
@@ -62,7 +62,7 @@
                               <div class="item-inner">
                                   <div class="item-title label">馒头</div>
                                   <div class="item-input">
-                                      <input class="mantou_num" type="number" placeholder="最多预定<%= pastry_mantou_max %>" <% if(!is_order){%>value="<%= mantou_num%>"<%}%> >
+                                      <input class="mantou_num" type="number" placeholder="最多预定<%= pastry_mantou_max %>" <% if(is_order){%>value="<%= mantou_num%>"<%}%> >
                                   </div>
                               </div>
                           </div>
