@@ -27,8 +27,7 @@ router.get('/', function(req, res, next){
 
                 //检查用户是否注册
                 userSvc.register(userinfo.userid,userinfo.name,userinfo.avatar).then(data=>{
-                    return console.log(data);
-                    res.redirect(config.dinner.client_url);
+                    return res.redirect(config.dinner.client_url);
                 }).catch(err=>{
                     console.error(err);
                     return res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>不是公司员工不能使用</p>");
