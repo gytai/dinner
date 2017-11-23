@@ -14,7 +14,7 @@ router.get('/', function(req, res, next){
                 console.log(userinfo);
 
                 if(!userinfo || !userinfo.userid){
-                    res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>不是公司员工不能使用</p>");
+                    return res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>不是公司员工不能使用</p>");
                 }
 
                 req.session.uid = userinfo.userid;
@@ -27,21 +27,21 @@ router.get('/', function(req, res, next){
 
                 //检查用户是否注册
                 userSvc.register(userinfo.userid,userinfo.name,userinfo.avatar).then(data=>{
-                    console.log(data);
+                    return console.log(data);
                     res.redirect(config.dinner.client_url);
                 }).catch(err=>{
                     console.error(err);
-                    res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>服务器异常</p>");
+                    return res.send("<p style='text-align: center;margin-top: 100px;font-size: 2rem;'>服务器异常</p>");
                 });
             });
         }else{
             var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
                 config.wechat.CORPID+"&redirect_uri="+config.wechat.REDIRECT_URI+"&response_type=code" +
                 "&scope=snsapi_userinfo&agentid="+config.wechat.AGENTID+"&state=meyer#wechat_redirect";
-            res.redirect(url);
+            return res.redirect(url);
         }
     }else{
-        res.redirect(config.dinner.client_url);
+        return res.redirect(config.dinner.client_url);
     }
 });
 
