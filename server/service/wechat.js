@@ -36,8 +36,12 @@ function getUserID(token,code) {
 }
 
 async function getUserInfo(code) {
-    var token = await getAccessToken();
-    var userid = await getUserID(token,code);
+    var token = await getAccessToken().catch(function (err){
+        console.error(err);
+    });
+    var userid = await getUserID(token,code).catch(function (err){
+        console.error(err);
+    });
     var  url = 'https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token='+token+'&userid='+userid;
     return new Promise(function (resolve, reject){
         axios.get(url).then(response => {

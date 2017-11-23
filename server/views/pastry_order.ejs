@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>面点秒杀</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+  <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+
+    <style>
+        .order-pastry-btn{
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-group">
+  <div class="page page-current">
+
+      <!-- 工具栏 -->
+      <nav class="bar bar-tab">
+          <a class="tab-item external" href="/dinner">
+              <span class="icon icon-home"></span>
+              <span class="tab-label">晚餐预定</span>
+          </a>
+          <a class="tab-item external active" href="/pastry">
+              <span class="icon icon-star"></span>
+              <span class="tab-label">面点秒杀</span>
+          </a>
+          <a class="tab-item external" href="/users">
+              <span class="icon icon-me"></span>
+              <span class="tab-label">个人账户</span>
+          </a>
+      </nav>
+
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+          <div class="content-block">
+              <div class="list-block">
+                  <ul>
+                      <!-- Text inputs -->
+                      <li>
+                          <div class="item-content">
+                              <div class="item-media"><i class="icon icon-form-name"></i></div>
+                              <div class="item-inner">
+                                  <div class="item-title label">包子</div>
+                                  <div class="item-input">
+                                      <input class="baozi_num" type="number" placeholder="最多预定<%= pastry_baozi_max %>">
+                                  </div>
+                              </div>
+                          </div>
+                      </li>
+                      <li>
+                          <div class="item-content">
+                              <div class="item-media"><i class="icon icon-form-email"></i></div>
+                              <div class="item-inner">
+                                  <div class="item-title label">馒头</div>
+                                  <div class="item-input">
+                                      <input class="mantou_num" type="number" placeholder="最多预定<%= pastry_mantou_max %>">
+                                  </div>
+                              </div>
+                          </div>
+                      </li>
+                  </ul>
+                  <a href="#" class="button button-big button-fill order-pastry-btn"><% if(!is_order){%>立即秒杀<%}else{%>取消预定<%}%></a>
+                  <div style="position: absolute;bottom: 0.2rem;font-size: 0.7rem;">
+                      <marquee>秒杀时间:<%= pastry_order_start_time %>,包子总数:<%= pastry_baozi_sum %>,馒头总数:<%= pastry_mantou_sum %></marquee>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </div>
+</div>
+
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+<script>
+    $(function () {
+
+        $.init();
+
+        var is_order = "<%= is_order %>" == "true" ? true : false;
+
+        function order() {
+            var baozi_num = $(".baozi_num").val();
+            var mantou_num = $(".mantou_num").val();
+
+            var url = "/pastry/order";
+            if(is_order){
+                url = "/pastry/cancel";
+                $.confirm(' 😊 很认真的问是否确定取消?', function () {
+                    $.post(url,function(res){
+                        console.log(res);
+                        if(res.code == 200){
+                            is_order = !is_order;
+                            if(is_order){
+                                $(".order-pastry-btn").text("取消预定");
+                            }else{
+                                $(".order-pastry-btn").text("立即秒杀");
+                            }
+                            $.toast('取消成功，客官慢走...');
+                        }else{
+                            $.toast(res.msg);
+                        }
+                    });
+                });
+
+            }else{
+                if(baozi_num + mantou_num == 0){
+                    return $.toast('请输入面点数量');
+                }
+                $.post(url,{
+                    baozi_num:baozi_num,
+                    mantou_num:mantou_num
+                },function(res){
+                    console.log(res);
+                    if(res.code == 200){
+                        is_order = !is_order;
+                        if(is_order){
+                            $(".order-pastry-btn").text("取消预定");
+                        }else{
+                            $(".order-pastry-btn").text("立即秒杀");
+                        }
+                        $.toast('运气真好，预定成功了');
+                    }else{
+                        $.toast(res.msg);
+                    }
+                });
+            }
+
+
+        }
+
+        $(".order-pastry-btn").click(function () {
+            order();
+        });
+    });
+</script>
+
+</body>
+</html>

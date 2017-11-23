@@ -135,7 +135,7 @@ class App extends Component {
                 let list = _self.state.order_list;
                 data.data.forEach(function (d) {
                     if(d.uid != sessionStorage.getItem('uid')){
-                        list.push({"name":d.name,"is_order":true});
+                        list.push({"name":d.name,"is_order":true,"avatar":d.avatar});
                     }else{
                         _self.setState({"self_is_order":true});
                     }

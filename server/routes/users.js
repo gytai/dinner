@@ -5,6 +5,42 @@ var common = require('../utils/common');
 var crypto = require('crypto');
 var config = require('../config');
 
+router.use(function (req, res, next) {
+    if(!req.session.uid){
+        return res.redirect('/');
+    }
+    next();
+});
+
+router.get('/',function (req, res, next) {
+    var uid = req.session.uid;
+    var now = new Date();
+    var start_time = common.dateFormat(now,'yyyy-MM-dd 00:00:00');
+    var end_time = common.dateFormat(now,'yyyy-MM-dd 23:59:59');
+    var sql = 'select * from pastry where uid=? and create_time>? and create_time<?';
+   mysql.query(sql, [uid,start_time,end_time],function (err,pdata) {
+        var time = common.dateFormat();
+        var baozi_num = 0;
+        var mantou_num = 0;
+        if(pdata.length > 0){
+            pdata = pdata[0];
+            baozi_num = pdata.baozi_num;
+            mantou_num = pdata.mantou_num;
+            time:pdata.time
+        }
+
+        res.render("users",{
+            name:req.session.uid,
+            uid:req.session.name,
+            avatar:req.session.avatar,
+            mantou_num:mantou_num,
+            baozi_num:baozi_num,
+            time:time
+        });
+    });
+
+});
+
 router.post('/reset', function(req, res, next) {
     var name = req.body.name;
     var password = req.body.password;

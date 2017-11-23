@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>个人账户</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+  <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <style>
+        .card{
+            margin: 0;
+        }
+
+        .card-header,.card-footer{
+            font-size: 0.6rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-group">
+  <div class="page page-current">
+      <!-- 工具栏 -->
+      <nav class="bar bar-tab">
+          <a class="tab-item external" href="/dinner">
+              <span class="icon icon-home"></span>
+              <span class="tab-label">晚餐预定</span>
+          </a>
+          <a class="tab-item external" href="/pastry">
+              <span class="icon icon-star"></span>
+              <span class="tab-label">面点秒杀</span>
+          </a>
+          <a class="tab-item external active" href="/users">
+              <span class="icon icon-me"></span>
+              <span class="tab-label">个人账户</span>
+          </a>
+      </nav>
+      <!-- 这里是页面内容区 -->
+      <div class="content">
+          <div class="content-block">
+              <div class="list-block">
+                  <ul>
+                      <li class="item-content ">
+                          <div class="item-inner">
+                              <div class="item-title">头像</div>
+                              <div class="item-after"><img src="<%= avatar %>" style="width: 1.3rem;border-radius: 1.3rem;"/></div>
+                          </div>
+                      </li>
+                      <li class="item-content">
+                          <div class="item-inner">
+                              <div class="item-title">工号</div>
+                              <div class="item-after"><%= uid %></div>
+                          </div>
+                      </li>
+                      <li class="item-content">
+                          <div class="item-inner">
+                              <div class="item-title">姓名</div>
+                              <div class="item-after"><%= name %></div>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+              <div class="card">
+                  <div class="card-header">面点预定明细:</div>
+                  <div class="card-content">
+                      <div class="card-content-inner">
+                          <div>
+                              包子：<%= baozi_num%>个
+                          </div>
+                          <div>
+                              馒头：<%= mantou_num%>个
+                          </div>
+                      </div>
+                  </div>
+                  <div class="card-footer"><%= time %></div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+
+</body>
+</html>

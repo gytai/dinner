@@ -31,6 +31,7 @@ global.app.set("mysql",connection);
 var index = require('./routes/index');
 var users = require('./routes/users');
 var pastry = require('./routes/pastry');
+var dinner = require('./routes/dinner');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -64,6 +65,7 @@ app.all('*',function (req, res, next) {
 app.use('/', index);
 app.use('/users', users);
 app.use('/pastry', pastry);
+app.use('/dinner', dinner);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
