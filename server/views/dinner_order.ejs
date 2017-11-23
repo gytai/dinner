@@ -167,7 +167,6 @@
             $.post(url,{"uid":uid},function (res) {
                 console.log(res);
                 if(res.code == 200){
-
                     order_checked = !order_checked;
                     if(order_checked){
                         $.toast('预定成功，客官再来...');
