@@ -116,13 +116,10 @@ async function order(req,res) {
         return res.send({code:400,msg:"馒头数量不足..."})
     }
 
-    if(baozi_num > config.dinner.pastry_baozi_max){
-        return res.send({code:400,msg:"包子超出秒杀上限..."})
+    if(baozi_num + mantou_num > config.dinner.pastry_baozi_max){
+        return res.send({code:400,msg:"面点超出秒杀上限.个人面点最大个数："+config.dinner.pastry_baozi_max})
     }
 
-    if(mantou_num > config.dinner.pastry_mantou_max){
-        return res.send({code:400,msg:"馒头超出秒杀上限..."})
-    }
 
     var is_order = await checkOrder(uid).catch(function (err){
         console.error(err);

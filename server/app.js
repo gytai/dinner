@@ -32,7 +32,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var pastry = require('./routes/pastry');
 var dinner = require('./routes/dinner');
-
+var noodles = require('./routes/noodles');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -66,6 +66,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/pastry', pastry);
 app.use('/dinner', dinner);
+app.use('/noodles', noodles);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

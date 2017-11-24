@@ -42,6 +42,7 @@
       <!-- 这里是页面内容区 -->
       <div class="content">
           <div class="content-block">
+              <div class="content-block-title" style="margin: 0;">个人面点预定总数上限: <%= pastry_max %>（个）</div>
               <div class="list-block">
                   <ul>
                       <!-- Text inputs -->
@@ -51,7 +52,7 @@
                               <div class="item-inner">
                                   <div class="item-title label">馒头</div>
                                   <div class="item-input">
-                                      <input class="mantou_num" type="number" placeholder="最多预定<%= pastry_mantou_max %>" <% if(is_order){%>value="<%= mantou_num%>"<%}%> >
+                                      <input class="mantou_num" type="number" placeholder="请输入个数" <% if(is_order){%>value="<%= mantou_num%>"<%}%> >
                                   </div>
                               </div>
                           </div>
@@ -62,7 +63,7 @@
                               <div class="item-inner">
                                   <div class="item-title label">包子/大饼</div>
                                   <div class="item-input">
-                                      <input class="baozi_num" type="number" placeholder="最多预定<%= pastry_baozi_max %>"  <% if(is_order){%>value="<%= baozi_num%>"<%}%> >
+                                      <input class="baozi_num" type="number" placeholder="请输入个数"  <% if(is_order){%>value="<%= baozi_num%>"<%}%> >
                                   </div>
                               </div>
                           </div>

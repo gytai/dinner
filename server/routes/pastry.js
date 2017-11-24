@@ -19,8 +19,7 @@ router.get('/',function (req, res, next) {
                     pastry_order_start_time:config.dinner.pastry_order_start_time,
                     pastry_baozi_sum:config.dinner.pastry_baozi_sum,
                     pastry_mantou_sum:config.dinner.pastry_mantou_sum,
-                    pastry_baozi_max:config.dinner.pastry_baozi_max,
-                    pastry_mantou_max:config.dinner.pastry_mantou_max,
+                    pastry_max:config.dinner.pastry_max,
                     is_order:is_order,
                     baozi_num:d.baozi_num,
                     mantou_num:d.mantou_num
@@ -33,8 +32,7 @@ router.get('/',function (req, res, next) {
                 pastry_order_start_time:config.dinner.pastry_order_start_time,
                 pastry_baozi_sum:config.dinner.pastry_baozi_sum,
                 pastry_mantou_sum:config.dinner.pastry_mantou_sum,
-                pastry_baozi_max:config.dinner.pastry_baozi_max,
-                pastry_mantou_max:config.dinner.pastry_mantou_max,
+                pastry_max:config.dinner.pastry_max,
                 is_order:is_order,
                 baozi_num:0,
                 mantou_num:0
