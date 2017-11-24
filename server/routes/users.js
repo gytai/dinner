@@ -18,7 +18,7 @@ router.get('/',function (req, res, next) {
     var start_time = common.dateFormat(now,'yyyy-MM-dd 00:00:00');
     var end_time = common.dateFormat(now,'yyyy-MM-dd 23:59:59');
     var sql = 'select * from pastry where uid=? and create_time>? and create_time<?';
-   mysql.query(sql, [uid,start_time,end_time],function (err,pdata) {
+    mysql.query(sql, [uid,start_time,end_time],function (err,pdata) {
         var time = common.dateFormat();
         var baozi_num = 0;
         var mantou_num = 0;
@@ -29,13 +29,22 @@ router.get('/',function (req, res, next) {
             time:pdata.time
         }
 
-        res.render("users",{
-            name:req.session.uid,
-            uid:req.session.name,
-            avatar:req.session.avatar,
-            mantou_num:mantou_num,
-            baozi_num:baozi_num,
-            time:time
+        sql = "select * from noodles where uid=? and create_time>? and create_time<?";
+
+        mysql.query(sql, [uid,start_time,end_time],function (err,noodles) {
+            var noodles_num = 0;
+            if(noodles.length > 0){
+                noodles_num = 1;
+            }
+            res.render("users",{
+                name:req.session.uid,
+                uid:req.session.name,
+                avatar:req.session.avatar,
+                mantou_num:mantou_num,
+                baozi_num:baozi_num,
+                time:time,
+                noodles_num:noodles_num
+            });
         });
     });
 
