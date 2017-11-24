@@ -179,6 +179,11 @@
                         window.location.reload();
                     },1000);
                 }else{
+                    if(order_checked){
+                        $(".order_btn input").prop("checked",true);
+                    }else{
+                        $(".order_btn input").prop("checked",false);
+                    }
                     $.toast(res.msg);
                 }
             });
