@@ -37,8 +37,8 @@ router.get('/',function (req, res, next) {
                 noodles_num = 1;
             }
             res.render("users",{
-                name:req.session.uid,
-                uid:req.session.name,
+                name:req.session.name,
+                uid:req.session.uid,
                 avatar:req.session.avatar,
                 mantou_num:mantou_num,
                 baozi_num:baozi_num,
